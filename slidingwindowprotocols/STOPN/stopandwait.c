@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include <stdlib.h>  // rand(), srand()
 #include <time.h>    // time()
 
 // Simulating sending a frame
