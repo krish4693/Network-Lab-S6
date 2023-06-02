@@ -20,13 +20,12 @@ int main() {
     char buffer[BUFFER_SIZE];
     FILE *fp;
     size_t bytesRead;
-    printf("-2");
 
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket < 0)
         error("Error opening socket.");
 
-    memset(&serverAddress, 0, sizeof(serverAddress));  //sets serverAddress structure values to 0 for all the default structure props
+    //set server address
     serverAddress.sin_family = AF_INET;                 //IPV4
     serverAddress.sin_port = htons(PORT);       //PORT IS SET
     serverAddress.sin_addr.s_addr = INADDR_ANY;  //TO RECEIVE ALL TYPES OF CONNECTION(ANY ADDRESS)
@@ -38,12 +37,9 @@ int main() {
         error("Error listening for connections.");
 
     printf("Server started. Listening on port %d...\n", PORT);
-    // printf("0");
 
     clientLength = sizeof(clientAddress);
-    // printf("1");
     clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddress, &clientLength);
-    // printf("2");
 
     if (clientSocket < 0)
         error("Error accepting connection.");
