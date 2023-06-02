@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include <time.h>
+#include<time.h>
 
 #define WINDOW_SIZE 4
 #define TIMEOUT 3
@@ -16,32 +16,41 @@ void sendFrame(int frameNumber) {
 bool receiveAck(int ackNumber) {
     // Simulating an ACK generation
     srand(time(NULL));
-    return rand() % 2 == 0; 
+    return rand() % 2 == 0;
 }
 
 int main() {
+    int frameNumber = 0;
     int base = 0;
     int nextSeqNum = 0;
-    
+    int expectedAck = 0;
+
     while (true) {
         // Send frames within the window
         while (nextSeqNum < base + WINDOW_SIZE) {
             sendFrame(nextSeqNum);
             nextSeqNum++;
         }
-        
-        // Wait for acknowledgment or timeout
+
+        // Wait for acknowledgments or timeout
         sleep(TIMEOUT);
-        
-        if (receiveAck(base)) {
-            // Frame acknowledged, move the window
-            base++;
-        } else {
-            // Frame not acknowledged, retransmit all frames in the window
-            printf("Timeout. Retransmitting frames starting from: %d\n", base);
-            nextSeqNum = base;
+
+        // Check acknowledgments
+        for (int i = base; i < nextSeqNum; i++) {
+            if (receiveAck(i)) {
+                printf("Frame %d acknowledged\n", i);
+
+                if (i == expectedAck) {
+                    expectedAck++;
+                    base++;
+                }
+            } else {
+                printf("Frame %d not acknowledged\n", i);
+                printf("Retransmitting frame: %d\n", i);
+                sendFrame(i);
+            }
         }
     }
-    
+
     return 0;
 }

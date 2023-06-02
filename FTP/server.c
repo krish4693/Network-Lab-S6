@@ -20,6 +20,7 @@ int main() {
     char buffer[BUFFER_SIZE];
     FILE *fp;
     size_t bytesRead;
+    printf("-2");
 
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket < 0)
@@ -37,9 +38,13 @@ int main() {
         error("Error listening for connections.");
 
     printf("Server started. Listening on port %d...\n", PORT);
+    // printf("0");
 
     clientLength = sizeof(clientAddress);
+    // printf("1");
     clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddress, &clientLength);
+    // printf("2");
+
     if (clientSocket < 0)
         error("Error accepting connection.");
 
