@@ -22,7 +22,7 @@ void reverseString(char *str) {
 int main() {
     int serverSocket, clientSocket;
     struct sockaddr_in serverAddress, clientAddress;
-    socklen_t clientAddressLength;
+    socklen_t clientLength;
     char buffer[BUFFER_SIZE];
 
     // Create socket
@@ -43,7 +43,9 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    // Listen for incoming connections
+    // Listen for incoming connectionBUFFER_SIZE];
+
+    // Create sockets
     if (listen(serverSocket, 1) == -1) {
         perror("listen failed");
         exit(EXIT_FAILURE);
@@ -52,8 +54,8 @@ int main() {
     printf("Server listening on port %d\n", PORT);
 
     // Accept a client connection
-    clientAddressLength = sizeof(clientAddress);
-    clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddress, &clientAddressLength);
+    clientLength = sizeof(clientAddress);
+    clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddress, &clientLength);
     if (clientSocket == -1) {
         perror("accept failed");
         exit(EXIT_FAILURE);
